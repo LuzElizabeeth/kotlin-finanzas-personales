@@ -14,8 +14,8 @@ fun main() {
         opcion = readLine()
 
         when (opcion) {
-            "1" -> println("Agregar ingreso")
-            "2" -> println("Agregar gasto")
+            "1" -> agregarMovimiento(movimientos, "Ingreso")
+            "2" -> agregarMovimiento(movimientos, "Gasto")
             "3" -> println("Ver movimientos")
             "4" -> println("Ver saldo")
             "5" -> println("Filtrar gastos")
@@ -35,4 +35,23 @@ fun mostrarMenu() {
     println("5. Filtrar gastos mayores a una cantidad")
     println("6. Salir")
     print("Elige una opción: ")
+}
+
+fun agregarMovimiento(movimientos: MutableList<Movimiento>, tipo: String) {
+    print("Categoría: ")
+    val categoria = readLine()?.takeIf { it.isNotBlank() } ?: "General"
+
+    print("Descripción: ")
+    val descripcion = readLine()?.takeIf { it.isNotBlank() } ?: "Sin descripción"
+
+    print("Monto: ")
+    val monto = readLine()?.toDoubleOrNull()
+
+    if (monto == null || monto <= 0) {
+        println("Monto inválido.")
+        return
+    }
+
+    movimientos.add(Movimiento(tipo, categoria, descripcion, monto))
+    println("$tipo registrado correctamente.")
 }
