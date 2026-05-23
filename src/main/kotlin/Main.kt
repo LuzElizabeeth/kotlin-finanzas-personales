@@ -16,7 +16,7 @@ fun main() {
         when (opcion) {
             "1" -> agregarMovimiento(movimientos, "Ingreso")
             "2" -> agregarMovimiento(movimientos, "Gasto")
-            "3" -> mostrarMovimiento(movimientos)
+            "3" -> mostrarMovimientos(movimientos)
             "4" -> mostrarSaldo(movimientos)
             "5" -> println("Filtrar gastos")
             "6" -> mostrarResumenPorCategoria(movimientos)
@@ -46,21 +46,22 @@ fun agregarMovimiento(movimientos: MutableList<Movimiento>, tipo: String) {
     println("Comida | Transporte | Escuela | Entretenimiento | Ahorro")
 
     print("Categoría: ")
-
     val categoria = readLine()
         ?.trim()
         ?.takeIf { it.isNotBlank() }
         ?: "General"
 
+    print("Descripción: ")
     val descripcion = readLine()
         ?.trim()
         ?.takeIf { it.isNotBlank() }
         ?: "Sin descripción"
 
-    println("Error: el monto debe ser mayor a 0.")
+    print("Monto: ")
+    val monto = readLine()?.toDoubleOrNull()
 
     if (monto == null || monto <= 0) {
-        println("Monto inválido.")
+        println("Error: el monto debe ser mayor a 0.")
         return
     }
 
