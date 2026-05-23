@@ -1,4 +1,12 @@
+data class Movimiento(
+    val tipo: String,
+    val categoria: String,
+    val descripcion: String,
+    val monto: Double
+)
+
 fun main() {
+    val movimientos = mutableListOf<Movimiento>()
     var opcion: String?
 
     do {
