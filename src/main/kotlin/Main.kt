@@ -16,7 +16,7 @@ fun main() {
         when (opcion) {
             "1" -> agregarMovimiento(movimientos, "Ingreso")
             "2" -> agregarMovimiento(movimientos, "Gasto")
-            "3" -> println("Ver movimientos")
+            "3" -> mostrarMovimiento(movimientos)
             "4" -> println("Ver saldo")
             "5" -> println("Filtrar gastos")
             "6" -> println("Saliendo del programa...")
@@ -54,4 +54,23 @@ fun agregarMovimiento(movimientos: MutableList<Movimiento>, tipo: String) {
 
     movimientos.add(Movimiento(tipo, categoria, descripcion, monto))
     println("$tipo registrado correctamente.")
+}
+
+fun mostrarMovimientos(movimientos: List<Movimiento>) {
+
+    if (movimientos.isEmpty()) {
+        println("No hay movimientos registrados.")
+        return
+    }
+
+    movimientos.forEachIndexed { index, movimiento ->
+
+        println(
+            "${index + 1}. " +
+                    "${movimiento.tipo} | " +
+                    "${movimiento.categoria} | " +
+                    "${movimiento.descripcion} | " +
+                    "$${movimiento.monto}"
+        )
+    }
 }
