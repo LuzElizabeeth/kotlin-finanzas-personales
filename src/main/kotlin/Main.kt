@@ -16,13 +16,8 @@ fun main() {
         when (opcion) {
             "1" -> agregarMovimiento(movimientos, "Ingreso")
             "2" -> agregarMovimiento(movimientos, "Gasto")
-<<<<<<< Updated upstream
             "3" -> mostrarMovimiento(movimientos)
-            "4" -> println("Ver saldo")
-=======
-            "3" -> println("Ver movimientos")
             "4" -> mostrarSaldo(movimientos)
->>>>>>> Stashed changes
             "5" -> println("Filtrar gastos")
             "6" -> println("Saliendo del programa...")
             else -> println("Opción no válida.")
@@ -43,14 +38,22 @@ fun mostrarMenu() {
 }
 
 fun agregarMovimiento(movimientos: MutableList<Movimiento>, tipo: String) {
+    println("Categorías sugeridas:")
+    println("Comida | Transporte | Escuela | Entretenimiento | Ahorro")
+
     print("Categoría: ")
-    val categoria = readLine()?.takeIf { it.isNotBlank() } ?: "General"
 
-    print("Descripción: ")
-    val descripcion = readLine()?.takeIf { it.isNotBlank() } ?: "Sin descripción"
+    val categoria = readLine()
+        ?.trim()
+        ?.takeIf { it.isNotBlank() }
+        ?: "General"
 
-    print("Monto: ")
-    val monto = readLine()?.toDoubleOrNull()
+    val descripcion = readLine()
+        ?.trim()
+        ?.takeIf { it.isNotBlank() }
+        ?: "Sin descripción"
+
+    println("Error: el monto debe ser mayor a 0.")
 
     if (monto == null || monto <= 0) {
         println("Monto inválido.")
@@ -61,7 +64,6 @@ fun agregarMovimiento(movimientos: MutableList<Movimiento>, tipo: String) {
     println("$tipo registrado correctamente.")
 }
 
-<<<<<<< Updated upstream
 fun mostrarMovimientos(movimientos: List<Movimiento>) {
 
     if (movimientos.isEmpty()) {
@@ -79,9 +81,6 @@ fun mostrarMovimientos(movimientos: List<Movimiento>) {
                     "$${movimiento.monto}"
         )
     }
-=======
-
-
 
 fun mostrarSaldo(movimientos: List<Movimiento>) {
 
@@ -99,5 +98,4 @@ fun mostrarSaldo(movimientos: List<Movimiento>) {
     println("Total de ingresos: $$ingresos")
     println("Total de gastos: $$gastos")
     println("Saldo actual: $$saldo")
->>>>>>> Stashed changes
 }
