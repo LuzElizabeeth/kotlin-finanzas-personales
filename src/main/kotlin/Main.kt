@@ -16,8 +16,13 @@ fun main() {
         when (opcion) {
             "1" -> agregarMovimiento(movimientos, "Ingreso")
             "2" -> agregarMovimiento(movimientos, "Gasto")
+<<<<<<< Updated upstream
             "3" -> mostrarMovimiento(movimientos)
             "4" -> println("Ver saldo")
+=======
+            "3" -> println("Ver movimientos")
+            "4" -> mostrarSaldo(movimientos)
+>>>>>>> Stashed changes
             "5" -> println("Filtrar gastos")
             "6" -> println("Saliendo del programa...")
             else -> println("Opción no válida.")
@@ -56,6 +61,7 @@ fun agregarMovimiento(movimientos: MutableList<Movimiento>, tipo: String) {
     println("$tipo registrado correctamente.")
 }
 
+<<<<<<< Updated upstream
 fun mostrarMovimientos(movimientos: List<Movimiento>) {
 
     if (movimientos.isEmpty()) {
@@ -73,4 +79,25 @@ fun mostrarMovimientos(movimientos: List<Movimiento>) {
                     "$${movimiento.monto}"
         )
     }
+=======
+
+
+
+fun mostrarSaldo(movimientos: List<Movimiento>) {
+
+    val ingresos = movimientos
+        .filter { it.tipo == "Ingreso" }
+        .sumOf { it.monto }
+
+    val gastos = movimientos
+        .filter { it.tipo == "Gasto" }
+        .sumOf { it.monto }
+
+    val saldo = ingresos - gastos
+
+    println("\n--- Resumen financiero ---")
+    println("Total de ingresos: $$ingresos")
+    println("Total de gastos: $$gastos")
+    println("Saldo actual: $$saldo")
+>>>>>>> Stashed changes
 }
