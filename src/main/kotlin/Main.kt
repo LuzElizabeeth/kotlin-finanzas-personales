@@ -20,11 +20,12 @@ fun main() {
             "4" -> mostrarSaldo(movimientos)
             "5" -> println("Filtrar gastos")
             "6" -> mostrarResumenPorCategoria(movimientos)
-            "7" -> println("Saliendo del programa...")
+            "7" -> eliminarMovimiento(movimientos)
+            "8" -> println("Saliendo del programa...")
             else -> println("Opción no válida.")
         }
 
-    } while (opcion != "7")
+    } while (opcion != "8")
 }
 
 fun mostrarMenu() {
@@ -35,7 +36,8 @@ fun mostrarMenu() {
     println("4. Ver saldo")
     println("5. Filtrar gastos mayores a una cantidad")
     println("6. Ver resumen por categoría")
-    println("7. Salir")
+    println("7. Eliminar movimiento")
+    println("8. Salir")
     print("Elige una opción: ")
 }
 
@@ -121,3 +123,26 @@ fun mostrarSaldo(movimientos: List<Movimiento>) {
             println("$categoria: $$total")
         }
     }
+
+fun eliminarMovimiento(movimientos: MutableList<Movimiento>) {
+
+    if (movimientos.isEmpty()) {
+        println("No hay movimientos para eliminar.")
+        return
+    }
+
+    mostrarMovimientos(movimientos)
+
+    print("Número del movimiento a eliminar: ")
+
+    val indice = readLine()?.toIntOrNull()
+
+    if (indice == null || indice <= 0 || indice > movimientos.size) {
+        println("Número inválido.")
+        return
+    }
+
+    movimientos.removeAt(indice - 1)
+
+    println("Movimiento eliminado correctamente.")
+}
