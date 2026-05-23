@@ -71,16 +71,19 @@ fun mostrarMovimientos(movimientos: List<Movimiento>) {
         return
     }
 
+    println("\n--- Movimientos registrados ---")
+
     movimientos.forEachIndexed { index, movimiento ->
+        val signo = if (movimiento.tipo == "Ingreso") "+" else "-"
 
         println(
-            "${index + 1}. " +
-                    "${movimiento.tipo} | " +
+            "${index + 1}. ${movimiento.tipo} | " +
                     "${movimiento.categoria} | " +
                     "${movimiento.descripcion} | " +
-                    "$${movimiento.monto}"
+                    "$signo$${movimiento.monto}"
         )
     }
+}
 
 fun mostrarSaldo(movimientos: List<Movimiento>) {
 
