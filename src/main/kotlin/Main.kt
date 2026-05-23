@@ -19,11 +19,12 @@ fun main() {
             "3" -> mostrarMovimiento(movimientos)
             "4" -> mostrarSaldo(movimientos)
             "5" -> println("Filtrar gastos")
-            "6" -> println("Saliendo del programa...")
+            "6" -> mostrarResumenPorCategoria(movimientos)
+            "7" -> println("Saliendo del programa...")
             else -> println("Opción no válida.")
         }
 
-    } while (opcion != "6")
+    } while (opcion != "7")
 }
 
 fun mostrarMenu() {
@@ -33,7 +34,8 @@ fun mostrarMenu() {
     println("3. Ver movimientos")
     println("4. Ver saldo")
     println("5. Filtrar gastos mayores a una cantidad")
-    println("6. Salir")
+    println("6. Ver resumen por categoría")
+    println("7. Salir")
     print("Elige una opción: ")
 }
 
@@ -102,3 +104,20 @@ fun mostrarSaldo(movimientos: List<Movimiento>) {
     println("Total de gastos: $$gastos")
     println("Saldo actual: $$saldo")
 }
+
+    fun mostrarResumenPorCategoria(movimientos: List<Movimiento>) {
+
+        if (movimientos.isEmpty()) {
+            println("No hay movimientos para resumir.")
+            return
+        }
+
+        val resumen = movimientos.groupBy { it.categoria }
+
+        println("\n--- Resumen por categoría ---")
+
+        resumen.forEach { (categoria, lista) ->
+            val total = lista.sumOf { it.monto }
+            println("$categoria: $$total")
+        }
+    }
