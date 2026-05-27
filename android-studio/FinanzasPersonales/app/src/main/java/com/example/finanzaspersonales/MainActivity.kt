@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 
 data class Movimiento(
     val tipo: String,
+    val categoria: String,
     val descripcion: String,
     val monto: Double
 )
@@ -35,9 +36,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun FinanzasScreen() {
 
+    var categoria by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
     var monto by remember { mutableStateOf("") }
-    var categoria by remember { mutableStateOf("") }
     var mensajeError by remember { mutableStateOf("") }
 
     var saldo by remember { mutableStateOf(0.0) }
@@ -141,7 +142,6 @@ fun FinanzasScreen() {
 
                 Button(
                     onClick = {
-
                         if (categoria.isBlank() || descripcion.isBlank() || monto.isBlank()) {
                             mensajeError = "Completa todos los campos"
                             return@Button
@@ -155,14 +155,14 @@ fun FinanzasScreen() {
                         }
 
                         mensajeError = ""
-
                         saldo += cantidad
 
                         movimientos.add(
                             Movimiento(
-                                "Ingreso",
-                                "$categoria - $descripcion",
-                                cantidad
+                                tipo = "Ingreso",
+                                categoria = categoria,
+                                descripcion = descripcion,
+                                monto = cantidad
                             )
                         )
 
@@ -179,9 +179,18 @@ fun FinanzasScreen() {
                     Text("Ingreso")
                 }
 
+                if (mensajeError.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        text = mensajeError,
+                        color = androidx.compose.ui.graphics.Color(0xFFB85C5C),
+                        fontSize = 14.sp
+                    )
+                }
+
                 Button(
                     onClick = {
-
                         if (categoria.isBlank() || descripcion.isBlank() || monto.isBlank()) {
                             mensajeError = "Completa todos los campos"
                             return@Button
@@ -195,14 +204,14 @@ fun FinanzasScreen() {
                         }
 
                         mensajeError = ""
-
                         saldo -= cantidad
 
                         movimientos.add(
                             Movimiento(
-                                "Gasto",
-                                "$categoria - $descripcion",
-                                cantidad
+                                tipo = "Gasto",
+                                categoria = categoria,
+                                descripcion = descripcion,
+                                monto = cantidad
                             )
                         )
 
@@ -217,6 +226,16 @@ fun FinanzasScreen() {
                 ) {
 
                     Text("Gasto")
+                }
+
+                if (mensajeError.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        text = mensajeError,
+                        color = androidx.compose.ui.graphics.Color(0xFFB85C5C),
+                        fontSize = 14.sp
+                    )
                 }
             }
 
