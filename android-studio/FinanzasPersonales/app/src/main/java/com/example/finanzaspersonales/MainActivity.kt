@@ -199,39 +199,51 @@ fun FinanzasScreen() {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 6.dp),
+                            .padding(vertical = 8.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = androidx.compose.ui.graphics.Color.White
+                            containerColor =
+                                if (movimiento.tipo == "Ingreso")
+                                    androidx.compose.ui.graphics.Color(0xFFE7F5E4)
+                                else
+                                    androidx.compose.ui.graphics.Color(0xFFFBE4E4)
                         ),
-                        shape = RoundedCornerShape(20.dp)
+                        shape = RoundedCornerShape(24.dp),
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 6.dp
+                        )
                     ) {
 
                         Column(
-                            modifier = Modifier.padding(18.dp)
+                            modifier = Modifier.padding(20.dp)
                         ) {
 
-                            Text(
-                                text = movimiento.tipo,
-                                fontSize = 18.sp,
-                                color =
-                                    if (movimiento.tipo == "Ingreso")
-                                        androidx.compose.ui.graphics.Color(0xFF4E7A38)
-                                    else
-                                        androidx.compose.ui.graphics.Color(0xFFB85C5C)
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
 
-                            Spacer(modifier = Modifier.height(5.dp))
+                                Text(
+                                    text = movimiento.tipo,
+                                    fontSize = 20.sp,
+                                    color =
+                                        if (movimiento.tipo == "Ingreso")
+                                            androidx.compose.ui.graphics.Color(0xFF4E7A38)
+                                        else
+                                            androidx.compose.ui.graphics.Color(0xFFB85C5C)
+                                )
+
+                                Text(
+                                    text = "$${movimiento.monto}",
+                                    fontSize = 20.sp
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(10.dp))
 
                             Text(
                                 text = movimiento.descripcion,
-                                fontSize = 16.sp
-                            )
-
-                            Spacer(modifier = Modifier.height(5.dp))
-
-                            Text(
-                                text = "$${movimiento.monto}",
-                                fontSize = 18.sp
+                                fontSize = 16.sp,
+                                color = androidx.compose.ui.graphics.Color.DarkGray
                             )
                         }
                     }
