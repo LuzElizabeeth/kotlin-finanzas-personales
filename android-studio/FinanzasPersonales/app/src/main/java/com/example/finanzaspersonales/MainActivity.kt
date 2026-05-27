@@ -37,6 +37,8 @@ fun FinanzasScreen() {
 
     var descripcion by remember { mutableStateOf("") }
     var monto by remember { mutableStateOf("") }
+    var categoria by remember { mutableStateOf("") }
+    var mensajeError by remember { mutableStateOf("") }
 
     var saldo by remember { mutableStateOf(0.0) }
 
@@ -96,6 +98,16 @@ fun FinanzasScreen() {
             Spacer(modifier = Modifier.height(25.dp))
 
             OutlinedTextField(
+                value = categoria,
+                onValueChange = { categoria = it },
+                label = { Text("Categoría") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            OutlinedTextField(
                 value = descripcion,
                 onValueChange = {
                     descripcion = it
@@ -130,18 +142,31 @@ fun FinanzasScreen() {
                 Button(
                     onClick = {
 
-                        val cantidad = monto.toDoubleOrNull() ?: 0.0
+                        if (categoria.isBlank() || descripcion.isBlank() || monto.isBlank()) {
+                            mensajeError = "Completa todos los campos"
+                            return@Button
+                        }
+
+                        val cantidad = monto.toDoubleOrNull()
+
+                        if (cantidad == null || cantidad <= 0) {
+                            mensajeError = "Ingresa un monto válido"
+                            return@Button
+                        }
+
+                        mensajeError = ""
 
                         saldo += cantidad
 
                         movimientos.add(
                             Movimiento(
                                 "Ingreso",
-                                descripcion,
+                                "$categoria - $descripcion",
                                 cantidad
                             )
                         )
 
+                        categoria = ""
                         descripcion = ""
                         monto = ""
                     },
@@ -157,18 +182,31 @@ fun FinanzasScreen() {
                 Button(
                     onClick = {
 
-                        val cantidad = monto.toDoubleOrNull() ?: 0.0
+                        if (categoria.isBlank() || descripcion.isBlank() || monto.isBlank()) {
+                            mensajeError = "Completa todos los campos"
+                            return@Button
+                        }
+
+                        val cantidad = monto.toDoubleOrNull()
+
+                        if (cantidad == null || cantidad <= 0) {
+                            mensajeError = "Ingresa un monto válido"
+                            return@Button
+                        }
+
+                        mensajeError = ""
 
                         saldo -= cantidad
 
                         movimientos.add(
                             Movimiento(
                                 "Gasto",
-                                descripcion,
+                                "$categoria - $descripcion",
                                 cantidad
                             )
                         )
 
+                        categoria = ""
                         descripcion = ""
                         monto = ""
                     },
@@ -180,6 +218,16 @@ fun FinanzasScreen() {
 
                     Text("Gasto")
                 }
+            }
+
+            if (mensajeError.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(
+                    text = mensajeError,
+                    color = androidx.compose.ui.graphics.Color(0xFFB85C5C),
+                    fontSize = 14.sp
+                )
             }
 
             Spacer(modifier = Modifier.height(30.dp))
