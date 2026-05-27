@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 data class Movimiento(
     val tipo: String,
@@ -43,129 +44,196 @@ fun FinanzasScreen() {
         mutableStateListOf<Movimiento>()
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = androidx.compose.ui.graphics.Color(0xFFDCE8D2)
     ) {
 
-        Text(
-            text = "Finanzas Personales",
-            fontSize = 28.sp
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "Saldo actual: $$saldo",
-            fontSize = 22.sp
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        OutlinedTextField(
-            value = descripcion,
-            onValueChange = {
-                descripcion = it
-            },
-            label = {
-                Text("Descripción")
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        OutlinedTextField(
-            value = monto,
-            onValueChange = {
-                monto = it
-            },
-            label = {
-                Text("Monto")
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
         ) {
 
-            Button(
-                onClick = {
+            Spacer(modifier = Modifier.height(20.dp))
 
-                    val cantidad = monto.toDoubleOrNull() ?: 0.0
+            Text(
+                text = "Finanzas Personales",
+                fontSize = 30.sp,
+                color = androidx.compose.ui.graphics.Color(0xFF3D5A2B)
+            )
 
-                    saldo += cantidad
+            Spacer(modifier = Modifier.height(20.dp))
 
-                    movimientos.add(
-                        Movimiento(
-                            "Ingreso",
-                            descripcion,
-                            cantidad
-                        )
-                    )
-
-                    descripcion = ""
-                    monto = ""
-                }
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = androidx.compose.ui.graphics.Color.White
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(25.dp)
             ) {
-                Text("Agregar ingreso")
-            }
 
-            Button(
-                onClick = {
-
-                    val cantidad = monto.toDoubleOrNull() ?: 0.0
-
-                    saldo -= cantidad
-
-                    movimientos.add(
-                        Movimiento(
-                            "Gasto",
-                            descripcion,
-                            cantidad
-                        )
-                    )
-
-                    descripcion = ""
-                    monto = ""
-                }
-            ) {
-                Text("Agregar gasto")
-            }
-        }
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Text(
-            text = "Movimientos",
-            fontSize = 24.sp
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        LazyColumn {
-
-            items(movimientos) { movimiento ->
-
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 5.dp)
+                Column(
+                    modifier = Modifier.padding(20.dp)
                 ) {
 
-                    Column(
-                        modifier = Modifier.padding(15.dp)
+                    Text(
+                        text = "Saldo actual",
+                        fontSize = 18.sp,
+                        color = androidx.compose.ui.graphics.Color.Gray
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        text = "$$saldo",
+                        fontSize = 38.sp,
+                        color = androidx.compose.ui.graphics.Color(0xFF4E7A38)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            OutlinedTextField(
+                value = descripcion,
+                onValueChange = {
+                    descripcion = it
+                },
+                label = {
+                    Text("Descripción")
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            OutlinedTextField(
+                value = monto,
+                onValueChange = {
+                    monto = it
+                },
+                label = {
+                    Text("Monto")
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+
+                Button(
+                    onClick = {
+
+                        val cantidad = monto.toDoubleOrNull() ?: 0.0
+
+                        saldo += cantidad
+
+                        movimientos.add(
+                            Movimiento(
+                                "Ingreso",
+                                descripcion,
+                                cantidad
+                            )
+                        )
+
+                        descripcion = ""
+                        monto = ""
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = androidx.compose.ui.graphics.Color(0xFF6F9B58)
+                    ),
+                    shape = RoundedCornerShape(20.dp)
+                ) {
+
+                    Text("Ingreso")
+                }
+
+                Button(
+                    onClick = {
+
+                        val cantidad = monto.toDoubleOrNull() ?: 0.0
+
+                        saldo -= cantidad
+
+                        movimientos.add(
+                            Movimiento(
+                                "Gasto",
+                                descripcion,
+                                cantidad
+                            )
+                        )
+
+                        descripcion = ""
+                        monto = ""
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = androidx.compose.ui.graphics.Color(0xFFB85C5C)
+                    ),
+                    shape = RoundedCornerShape(20.dp)
+                ) {
+
+                    Text("Gasto")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Text(
+                text = "Movimientos",
+                fontSize = 26.sp,
+                color = androidx.compose.ui.graphics.Color(0xFF3D5A2B)
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            LazyColumn {
+
+                items(movimientos) { movimiento ->
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 6.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = androidx.compose.ui.graphics.Color.White
+                        ),
+                        shape = RoundedCornerShape(20.dp)
                     ) {
 
-                        Text(text = movimiento.tipo)
+                        Column(
+                            modifier = Modifier.padding(18.dp)
+                        ) {
 
-                        Text(text = movimiento.descripcion)
+                            Text(
+                                text = movimiento.tipo,
+                                fontSize = 18.sp,
+                                color =
+                                    if (movimiento.tipo == "Ingreso")
+                                        androidx.compose.ui.graphics.Color(0xFF4E7A38)
+                                    else
+                                        androidx.compose.ui.graphics.Color(0xFFB85C5C)
+                            )
 
-                        Text(text = "$${movimiento.monto}")
+                            Spacer(modifier = Modifier.height(5.dp))
+
+                            Text(
+                                text = movimiento.descripcion,
+                                fontSize = 16.sp
+                            )
+
+                            Spacer(modifier = Modifier.height(5.dp))
+
+                            Text(
+                                text = "$${movimiento.monto}",
+                                fontSize = 18.sp
+                            )
+                        }
                     }
                 }
             }
