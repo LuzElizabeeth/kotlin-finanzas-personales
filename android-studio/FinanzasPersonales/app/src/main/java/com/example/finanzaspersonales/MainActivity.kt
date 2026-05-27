@@ -45,6 +45,8 @@ fun FinanzasScreen() {
 
     val movimientos = remember {
         mutableStateListOf<Movimiento>()
+
+        var filtro by remember { mutableStateOf("Todos") }
     }
 
     Surface(
