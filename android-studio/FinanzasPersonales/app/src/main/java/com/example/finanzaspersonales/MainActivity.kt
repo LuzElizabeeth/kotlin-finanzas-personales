@@ -244,55 +244,67 @@ fun FinanzasScreen() {
 
                 items(movimientos) { movimiento ->
 
+                    val colorTarjeta =
+                        if (movimiento.tipo == "Ingreso")
+                            androidx.compose.ui.graphics.Color(0xFFE7F5E4)
+                        else
+                            androidx.compose.ui.graphics.Color(0xFFFBE4E4)
+
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor =
-                                if (movimiento.tipo == "Ingreso")
-                                    androidx.compose.ui.graphics.Color(0xFFE7F5E4)
-                                else
-                                    androidx.compose.ui.graphics.Color(0xFFFBE4E4)
+                            containerColor = colorTarjeta
                         ),
                         shape = RoundedCornerShape(24.dp),
-                        elevation = CardDefaults.cardElevation(
-                            defaultElevation = 6.dp
-                        )
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                     ) {
-
                         Column(
-                            modifier = Modifier.padding(20.dp)
+                            modifier = Modifier.padding(18.dp)
                         ) {
-
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-
                                 Text(
                                     text = movimiento.tipo,
-                                    fontSize = 20.sp,
-                                    color =
-                                        if (movimiento.tipo == "Ingreso")
-                                            androidx.compose.ui.graphics.Color(0xFF4E7A38)
-                                        else
-                                            androidx.compose.ui.graphics.Color(0xFFB85C5C)
+                                    fontSize = 18.sp,
+                                    color = if (movimiento.tipo == "Ingreso")
+                                        androidx.compose.ui.graphics.Color(0xFF4E7A38)
+                                    else
+                                        androidx.compose.ui.graphics.Color(0xFFB85C5C)
                                 )
 
                                 Text(
                                     text = "$${movimiento.monto}",
-                                    fontSize = 20.sp
+                                    fontSize = 18.sp
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             Text(
                                 text = movimiento.descripcion,
-                                fontSize = 16.sp,
-                                color = androidx.compose.ui.graphics.Color.DarkGray
+                                fontSize = 15.sp
                             )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            Button(
+                                onClick = {
+                                    movimientos.remove(movimiento)
+
+                                    saldo = movimientos.sumOf {
+                                        if (it.tipo == "Ingreso") it.monto else -it.monto
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = androidx.compose.ui.graphics.Color(0xFF6F7F5F)
+                                )
+                            ) {
+                                Text("Eliminar")
+                            }
                         }
                     }
                 }
