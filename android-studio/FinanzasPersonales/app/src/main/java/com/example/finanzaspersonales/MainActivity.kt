@@ -35,33 +35,27 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun FinanzasScreen() {
-
     var categoria by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
     var monto by remember { mutableStateOf("") }
     var mensajeError by remember { mutableStateOf("") }
-
     var saldo by remember { mutableStateOf(0.0) }
-
     val movimientos = remember {
         mutableStateListOf<Movimiento>()
-
-        var filtro by remember { mutableStateOf("Todos") }
     }
+
+    var filtro by remember { mutableStateOf("Todos") }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = androidx.compose.ui.graphics.Color(0xFFDCE8D2)
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(20.dp)
         ) {
-
             Spacer(modifier = Modifier.height(20.dp))
-
             Text(
                 text = "Finanzas Personales",
                 fontSize = 30.sp,
@@ -77,19 +71,15 @@ fun FinanzasScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(25.dp)
             ) {
-
                 Column(
                     modifier = Modifier.padding(20.dp)
                 ) {
-
                     Text(
                         text = "Saldo actual",
                         fontSize = 18.sp,
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
-
                     Spacer(modifier = Modifier.height(10.dp))
-
                     Text(
                         text = "$$saldo",
                         fontSize = 38.sp,
@@ -112,12 +102,8 @@ fun FinanzasScreen() {
 
             OutlinedTextField(
                 value = descripcion,
-                onValueChange = {
-                    descripcion = it
-                },
-                label = {
-                    Text("Descripción")
-                },
+                onValueChange = { descripcion = it },
+                label = { Text("Descripción") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp)
             )
@@ -126,39 +112,28 @@ fun FinanzasScreen() {
 
             OutlinedTextField(
                 value = monto,
-                onValueChange = {
-                    monto = it
-                },
-                label = {
-                    Text("Monto")
-                },
+                onValueChange = { monto = it },
+                label = { Text("Monto") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp)
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Button(
                     onClick = {
                         if (categoria.isBlank() || descripcion.isBlank() || monto.isBlank()) {
                             mensajeError = "Completa todos los campos"
                             return@Button
                         }
-
                         val cantidad = monto.toDoubleOrNull()
-
                         if (cantidad == null || cantidad <= 0) {
                             mensajeError = "Ingresa un monto válido"
                             return@Button
                         }
-
                         mensajeError = ""
                         saldo += cantidad
-
                         movimientos.add(
                             Movimiento(
                                 tipo = "Ingreso",
@@ -167,7 +142,6 @@ fun FinanzasScreen() {
                                 monto = cantidad
                             )
                         )
-
                         categoria = ""
                         descripcion = ""
                         monto = ""
@@ -177,18 +151,7 @@ fun FinanzasScreen() {
                     ),
                     shape = RoundedCornerShape(20.dp)
                 ) {
-
                     Text("Ingreso")
-                }
-
-                if (mensajeError.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(
-                        text = mensajeError,
-                        color = androidx.compose.ui.graphics.Color(0xFFB85C5C),
-                        fontSize = 14.sp
-                    )
                 }
 
                 Button(
@@ -197,17 +160,13 @@ fun FinanzasScreen() {
                             mensajeError = "Completa todos los campos"
                             return@Button
                         }
-
                         val cantidad = monto.toDoubleOrNull()
-
                         if (cantidad == null || cantidad <= 0) {
                             mensajeError = "Ingresa un monto válido"
                             return@Button
                         }
-
                         mensajeError = ""
                         saldo -= cantidad
-
                         movimientos.add(
                             Movimiento(
                                 tipo = "Gasto",
@@ -216,7 +175,6 @@ fun FinanzasScreen() {
                                 monto = cantidad
                             )
                         )
-
                         categoria = ""
                         descripcion = ""
                         monto = ""
@@ -226,24 +184,12 @@ fun FinanzasScreen() {
                     ),
                     shape = RoundedCornerShape(20.dp)
                 ) {
-
                     Text("Gasto")
-                }
-
-                if (mensajeError.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(
-                        text = mensajeError,
-                        color = androidx.compose.ui.graphics.Color(0xFFB85C5C),
-                        fontSize = 14.sp
-                    )
                 }
             }
 
             if (mensajeError.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
-
                 Text(
                     text = mensajeError,
                     color = androidx.compose.ui.graphics.Color(0xFFB85C5C),
@@ -253,6 +199,23 @@ fun FinanzasScreen() {
 
             Spacer(modifier = Modifier.height(30.dp))
 
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(onClick = { filtro = "Todos" }) {
+                    Text("Todos")
+                }
+                Button(onClick = { filtro = "Ingreso" }) {
+                    Text("Ingresos")
+                }
+                Button(onClick = { filtro = "Gasto" }) {
+                    Text("Gastos")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(15.dp))
+
             Text(
                 text = "Movimientos",
                 fontSize = 26.sp,
@@ -261,10 +224,14 @@ fun FinanzasScreen() {
 
             Spacer(modifier = Modifier.height(15.dp))
 
+            val movimientosFiltrados = if (filtro == "Todos") {
+                movimientos
+            } else {
+                movimientos.filter { it.tipo == filtro }
+            }
+
             LazyColumn {
-
-                items(movimientos) { movimiento ->
-
+                items(movimientosFiltrados) { movimiento ->
                     val colorTarjeta =
                         if (movimiento.tipo == "Ingreso")
                             androidx.compose.ui.graphics.Color(0xFFE7F5E4)
@@ -296,7 +263,6 @@ fun FinanzasScreen() {
                                     else
                                         androidx.compose.ui.graphics.Color(0xFFB85C5C)
                                 )
-
                                 Text(
                                     text = "$${movimiento.monto}",
                                     fontSize = 18.sp
@@ -310,12 +276,17 @@ fun FinanzasScreen() {
                                 fontSize = 15.sp
                             )
 
+                            Text(
+                                text = movimiento.categoria,
+                                fontSize = 14.sp,
+                                color = androidx.compose.ui.graphics.Color.Gray
+                            )
+
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Button(
                                 onClick = {
                                     movimientos.remove(movimiento)
-
                                     saldo = movimientos.sumOf {
                                         if (it.tipo == "Ingreso") it.monto else -it.monto
                                     }
