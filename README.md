@@ -63,6 +63,26 @@ Null safety: ?. ?: toDoubleOrNull()
 Data class: data class Movimiento
 
 --------------------------------------
+# Versiones del proyecto
+
+El repositorio contiene dos versiones del proyecto:
+
+## Versión de consola
+
+La primera versión fue desarrollada en IntelliJ IDEA como aplicación de consola. Permite registrar ingresos, gastos, calcular saldo, filtrar movimientos y eliminar registros.
+
+Ubicación:
+text
+consola-intellij/
+
+## Versión Android
+La segunda versión fue desarrollada en Android Studio con Kotlin y Jetpack Compose. Incluye una interfaz visual para registrar ingresos y gastos personales, mostrar saldo, validar datos y visualizar movimientos.
+
+Ubicación:
+text
+android-studio/
+
+-------------------------------------
 
 ## Reflexión de proceso
 
